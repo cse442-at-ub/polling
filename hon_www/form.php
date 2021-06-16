@@ -1,43 +1,18 @@
 <?php
 
 require 'connect_db.php';
+require 'Utilities/db_operations.php';
 
-$sql_query = "SELECT * FROM comments";
-
-$query_res = mysqli_query($conn, $sql_query);
-
-if ($query_res ==false){
-    echo mysqli_error($conn);
-}else{
-    // $res = mysqli_fetch_all($query_res);  // return array from result set from the db
-    // var_dump($res);
-}
-
-$sql_query_startpoll = "SELECT * FROM comments WHERE title='start_poll'";
-
-$query_res = mysqli_query($conn, $sql_query_startpoll);
-
-if ($query_res ==false){
-    echo mysqli_error($conn);
-}else{
-    $res = mysqli_fetch_all($query_res);  // return array from result set from the db
-    $r = $res;
-}
+$startpoll_tuple = select_startpoll($conn);
 
 $start_yet = NULL;
 
-foreach($r as $elem){
-    foreach($elem as $index => $val){
-        if ($index==0 && $val!=""){
-            // echo "<br><h3>" . $val . ": ";
-        } elseif ($index==1 && $val!=""){
-            if($val=="no" || $val="yes"){
-                $start_yet = $val;
-            }
-            // echo $val ."</h3>";
-        }
-    }
+// var_dump($startpoll_tuple);
+if($startpoll_tuple!=NULL){
+    $start_yet = $startpoll_tuple[0][1];
 }
+
+
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>
@@ -45,18 +20,9 @@ foreach($r as $elem){
 <?php endif;?>
 
 <?php
-if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes"){
-    // var_dump($_POST);
-    $sql_insert = "INSERT INTO comments(title, comment)
-                    VALUES('" . $_POST['title'] . "','" . $_POST['content'] . "')";
-    $query_insert_res = mysqli_query($conn, $sql_insert);
-    if($query_insert_res==false){
-        echo mysqli_error($conn);
-    }else{
-        // echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
-        header("Location: thank_submission.php");
-    }
-}
+
+insert_redirect_exceptFlag($conn, $start_yet);
+// var_dump($_POST);
 
 ?>
 
@@ -72,17 +38,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes"){
     <h3>Have you had php experience before?</h3>
     <form method="post">
         <div>
-            <label for="title">Name</label>
-            <input type="text" name="title">
+            <label for="name">Your name: </label>
+            <input type="text" name ="name"><br>
+        </div>
+        <div>
+            <input type="radio" name="answer" value="Yes">
+            <label for="answer">Yes</label>
         </div>
 
         <div>
-            <label for="content">comment</label>
-            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <input type="radio" name="answer" value="No">
+            <label for="answer">No</label>
         </div>
-
-        
-    
         <button>Send</button>
     </form>
 </body>
