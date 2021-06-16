@@ -1,19 +1,9 @@
 <?php
 
 require 'connect_db.php';
+require 'Utilities/db_operations.php';
 
-$sql_query = "SELECT * FROM comments WHERE title='start_poll'";
-
-$query_res = mysqli_query($conn, $sql_query);
-
-$r = array();
-
-if ($query_res ==false){
-    echo mysqli_error($conn);
-}else{
-    $res = mysqli_fetch_all($query_res);  // return array from result set from the db
-    $r = $res;
-}
+$r = select_startpoll($conn);
 
 foreach($r as $elem){
     foreach($elem as $index => $val){
@@ -36,6 +26,7 @@ foreach($r as $elem){
     <title>Document</title>
 </head>
 <body>
+<!-- when anchor put nothing, it means redirect to current page -->
     <h3>The poll hasn't end yet <a href="">click here to refresh</a></h3>
 </body>
 </html>
