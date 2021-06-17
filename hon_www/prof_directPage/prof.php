@@ -1,31 +1,18 @@
 <?php
 
 require '../connect_db.php';
+require '../Utilities/db_operations.php';
 
-// Once user get into this page, the start_poll result row will delete and re-insert
-$sql_query = "DELETE FROM comments WHERE title='start_poll'";
+// clear the entire table when professor get to this page
+clear_table($conn, $table_name);
 
-$query_res = mysqli_query($conn, $sql_query);
+insert_startPoll_fromPost($conn);
 
-if ($query_res ==false){
-    echo mysqli_error($conn);
-}else{
-}
-
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-    // var_dump($_POST);
-    $sql_insert = "INSERT INTO comments(title, comment)
-                    VALUES('" . "start_poll" . "','" . $_POST['start_poll'] . "')";
-    $query_insert_res = mysqli_query($conn, $sql_insert);
-    if($query_insert_res==false){
-        echo mysqli_error($conn);
-    }else{
-    }
-}
-
-if($_POST['start_poll']=="no"){
+if($_SERVER["REQUEST_METHOD"]=="POST" && $_POST['start_poll']=="no"){
     echo "<h3>Okay then, then poll is not going to start until you say so</h3>";
-} elseif($_POST['start_poll']=="yes"){
+} elseif($_SERVER["REQUEST_METHOD"]=="POST" && $_POST['start_poll']=="yes"){
+    //it's going to remove all existing tuples(except the flag 'start_poll') when prof start the poll question
+    clear_table_exceptFlag($conn, $table_name);
     header("Location: prof_mid.php");
 }
 
@@ -39,12 +26,9 @@ if($_POST['start_poll']=="no"){
 </head>
 <body>
     <form method="POST">
-        <h3>To start the poll question or not</h3>
-        <select name="start_poll" id="start_poll">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-        <button>Submit</button><br><br>
+        <h3>Click to start the poll question.</h3>
+
+        <button name="start_poll" type="submit" value="yes">Start</button><br><br>
 
         <label for="start_poll">You got php experiences before?</label>
     </form>
