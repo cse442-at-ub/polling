@@ -12,6 +12,7 @@
 <body>
 
   <?php
+  /*
   $db_host = "oceanus.cse.buffalo.edu:3306";
   $db_name = "cse442_2021_summer_team_b_db"; //honching_db yli55_db is not correct, here is our summer database name
   $db_user = "yli55"; //honching
@@ -35,7 +36,7 @@
   }
 
   $conn = connect_db($db_host, $db_user, $db_pass, $db_name);
-
+*/
 
   //-- database above---------------------------------------------
   // define variables and set to empty values
@@ -43,6 +44,7 @@
   $name = $UBIT = $feadBack = "";
   $flag = '';
   $update = '';
+  $currentTime = '';
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $flag = 'submitted';
     if (empty($_POST["name"])) {
@@ -76,27 +78,28 @@
       //}
       // insert into database below--------------------
       // check if this record under the same UBIT already exist
-      $sql_query = "SELECT * FROM feedBackTable";
+      // $sql_query = "SELECT * FROM feedBackTable";
 
-      $query_res = mysqli_query($conn, $sql_query);
-
+      //$query_res = mysqli_query($conn, $sql_query);
+      /*
       if ($query_res == false) {
         echo "78\r\n";
         echo "<br>";
         echo mysqli_error($conn);
-      }
+      }*/
       // connect successfully
-      else {
-        //echo nl2br("83\r\n");
-        if (mysqli_num_rows($query_res) > 0) {
-          //echo nl2br("86\r\n");
-          // use WHERE clause to check whether ubit already exist, it the record found, then update; if not insert new record
-          /*
+      //else {
+      //echo nl2br("83\r\n");
+      //if (mysqli_num_rows($query_res) > 0) {
+      //echo nl2br("86\r\n");
+      // use WHERE clause to check whether ubit already exist, it the record found, then update; if not insert new record
+      /*
         echo $_POST['UBIT'];
         echo $_POST['feadBack'];
         $sql_insert = "INSERT INTO feedBackTable(UBIT,Feedback) VALUES('" . $_POST['UBIT'] . "','" . $_POST['feadBack'] . "')";
         */
-          //echo nl2br("87  '" . $_POST['UBIT'] . "' \r\n");
+      //echo nl2br("87  '" . $_POST['UBIT'] . "' \r\n");
+      /*  no update anymore
           $sql_where = "SELECT * FROM feedBackTable WHERE UBIT='" . $_POST['UBIT'] . "'"; //OMG these quote so annoying! Formating
           $query_where_res = mysqli_query($conn, $sql_where);
           if ($query_where_res == true) {
@@ -130,28 +133,35 @@
             echo nl2br("123\r\n");
             echo mysqli_error($conn);
           }
-        }
-        // first record insert directly
-        else {
-          //echo "116\r\n";
-          echo "<br>";
-          // echo $_POST['UBIT'];
-          // echo $_POST['feadBack'];
-          $sql_insert = "INSERT INTO feedBackTable(UBIT,Feedback) VALUES('" . $_POST['UBIT'] . "','" . $_POST['feadBack'] . "')";
-          //$sql_insert = "INSERT INTO feedBackTable(UBIT,Feedback) VALUES('yli55','I am lost')";// this one works 
 
-          $query_insert_res = mysqli_query($conn, $sql_insert);
-          if ($query_insert_res == false) {
-            echo "123\r\n";
-            echo "<br>";
-            echo mysqli_error($conn);
-          } else {
-            //echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
-            //header("Location: thank_submission.php");
-            echo "<h2>Your feedback recorded  </h2>";
-          }
-        }
+          */
+      //}
+      // first record insert directly
+      //else {
+      //echo "116\r\n";
+      echo "<br>";
+      // echo $_POST['UBIT'];
+      // echo $_POST['feadBack'];
+      //echo $_POST['$currentTime'];
+      //echo nl2br(" 144 Timestamp:  $currentTime \r\n");
+      date_default_timezone_set('America/New_York');
+      $currentTime = date("Y-m-d H:i:s");
+      //echo ($currentTime);
+      $sql_insert = "INSERT INTO feedBackTable(InputTime,UBIT,Feedback) VALUES('" . $currentTime . "' ,'" . $_POST['UBIT'] . "','" . $_POST['feadBack'] . "')";
+      //$sql_insert = "INSERT INTO feedBackTable(UBIT,Feedback) VALUES('yli55','I am lost')";// this one works //$currentTime
+
+      $query_insert_res = mysqli_query($conn, $sql_insert);
+      if ($query_insert_res == false) {
+        echo "123\r\n";
+        echo "<br>";
+        echo mysqli_error($conn);
+      } else {
+        //echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
+        //header("Location: thank_submission.php");
+        echo "<h2>Your feedback recorded  </h2>";
       }
+      //}
+      //}
     } else { // user did not input feedback
 
     }
@@ -186,6 +196,11 @@
     <span class="error">* <?php echo $feadBackErr; ?></span>
 
     <br><br>
+    <?php
+    // date_default_timezone_set('America/New_York');
+    // $currentTime = date("Y-m-d H:i:s");
+    // echo ($currentTime);
+    ?>
     <input type="submit" name="submit" value="Submit">
   </form>
 
@@ -194,14 +209,16 @@
 
 
     if (!empty($_POST["feadBack"])) {
-      if ($update == "update") {
-        echo "<h2> Your resubmit got recorded, feedback got updated</h2>";
-      }
+      // if ($update == "update") {
+      //   echo "<h2> Your resubmit got recorded, feedback got updated</h2>";
+      // }
       //echo nl2br("87  '" . $_POST['UBIT'] . "' \r\n");
       echo "<h2>Your input recorded below:</h2>";
       echo nl2br("Your UBIT:  '" . $_POST['UBIT'] . "' \r\n");
       echo "<br>";
       echo nl2br("Your Feedback:  '" . $_POST['feadBack'] . "' \r\n");
+      echo "<br>";
+      echo nl2br("Timestamp:  $currentTime \r\n");
     } else {
       echo "<h2>You did not give your feedback, thus your feedback will not be considered</h2>";
     }
@@ -212,3 +229,19 @@
 </body>
 
 </html>
+<?php
+/*
+
+date_sub($currentTime,date_interval_create_from_date_string("2 Minutes"));
+echo date_format($currentTime,"Y/m/d H:i:s");
+
+
+$userInputTime = $row->timeStamp; //from database
+
+$subTwoMinTime = strtotime($currentTime);
+$userInputTime = strtotime($userInputTime);
+
+if (subTwoMinTime <= userInputTime) { // retrieve out for caculating average for the 2 mini }
+echo nl2br("87  '" . $_POST['UBIT'] . "' \r\n");
+*/
+?>
