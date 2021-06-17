@@ -1,0 +1,15 @@
+div.a {
+    background-color: yellow;
+    border: 2px lightgreen;
+    padding: 10px;
+    border-radius: 25px;
+}
+div.b {
+    background-color: green;
+    border: 2px lightgreen;
+    padding: 10px;
+    border-radius: 25px;
+}
+li.a {
+    border-radius: 25px;
+}
