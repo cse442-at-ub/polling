@@ -153,7 +153,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </form>
 
-                    <p style = "font-size: 15pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%; padding: 5px;">
+                    <p style = "font-size: 14pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 23%;">
+                        No poll is currently open.
+                    </p>
+
+                    <!-- <p style = "font-size: 15pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%; padding: 5px;">
                         Which of the following is the best Dwight Schrute quote?
                     </p>
 
@@ -177,27 +181,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 4px;">
                             <input type = "submit" value = "Submit Response">
                         </div>
-                    </form>
+                    </form> -->
 
-                    <p style = "font-size: 12.5pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 3%; top: 7.75%;">
+                    <p style = "font-size: 12pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 3%; top: 7.75%;">
                         Lecture feedback:
                     </p>
 
                     <form action = "Home.php" method = "post">
-                        <div style = "position: fixed; right: 3.75%; top: 14%;">
-                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2px; font-size: 10.5pt; font-family: Tahoma; font-weight: normal;">
+                        <div style = "position: fixed; right: 3.5%; top: 14%;">
+                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2.5px; font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                                 <input type = "radio" id = "lost" name = "feedback" value = "lost"><br>
                                 <label for = "lost"> I'm lost </label>
                             </div>
-                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2px; font-size: 10.5pt; font-family: Tahoma; font-weight: normal;">
+                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2.5px; font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                                 <input type = "radio" id = "right" name = "feedback" value = "right"><br>
                                 <label for = "right"> Just right </label>
                             </div>
-                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2px; font-size: 10.5pt; font-family: Tahoma; font-weight: normal;">
+                            <div style = "display: flex; justify-content: center; align-items: center; padding: 2.5px; font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                                 <input type = "radio" id = "easy" name = "feedback" value = "easy"><br>
                                 <label for = "easy"> This is easy </label>
                             </div>
-                            <div style = "display: flex; justify-content: center; align-items: center; padding: 5px;">
+                            <div style = "display: flex; justify-content: center; align-items: center; padding: 4.5px;">
                                 <input type = "submit" value = "Send Feedback" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                             </div>
                         </div>
