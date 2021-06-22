@@ -3,9 +3,9 @@ function connect_db() {
     $host = "oceanus.cse.buffalo.edu:3306";
     $user = "honching";
     $pass = "50185646";
-    $name = "cse442_2021_summer_team_b_db";
+    $db = "cse442_2021_summer_team_b_db";
 
-    $connection = mysqli_connect($host, $user, $pass, $name);
+    $connection = mysqli_connect($host, $user, $pass, $db);
 
     if (mysqli_connect_error()) {
         exit;
@@ -17,7 +17,9 @@ function connect_db() {
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["name"])) {
+    $name = htmlspecialchars($_POST["name"]);
+
+    if (empty($name)) {
 ?>
         <!DOCTYPE html>
         <html>
@@ -54,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $instructorExists = false;
 
         while ($i = mysqli_fetch_assoc($instructorResult)) {
-            if ($i["UBIT"] == $_POST["name"]) {
+            if ($i["UBIT"] == $name) {
                 $instructorExists = true;
             }
         }
@@ -64,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $studentExists = false;
 
         while ($j = mysqli_fetch_assoc($studentResult)) {
-            if ($j["UBIT"] == $_POST["name"]) {
+            if ($j["UBIT"] == $name) {
                 $studentExists = true;
             }
         }
@@ -79,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </h1>
         
                     <h2 style = "font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 1%; top: 1%;">
-                        Welcome, <?php echo $_POST["name"]; ?>!
+                        Welcome, <?php echo $name; ?>!
                     </h2>
 
                     <div>
@@ -138,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </h1>
         
                     <h2 style = "font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 1%; top: 1%;">
-                        Welcome, <?php echo $_POST["name"]; ?>!
+                        Welcome, <?php echo $name; ?>!
                     </h2>
 
                     <div>
