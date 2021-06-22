@@ -9,23 +9,21 @@ $start_yet = NULL;
 
 // var_dump($startpoll_tuple);
 if($startpoll_tuple!=NULL){
-    $start_yet = $startpoll_tuple[0][1];
+    $start_yet = $startpoll_tuple[0][2];
 }
 
+/* pull the last question out of DB*/
+$question_tuple = select_lastQuestion($conn);
+$theQuestion = $question_tuple[0][1];
 
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>
 <h3>The poll hasn't start yet, click to refresh <a href="">refresh</a></h3>
+<h3>No question for you so far!</h3>
 <?php endif;?>
 
-<?php if($start_yet=="yes" || $start_yet==NULL){
-    $question_tuple = select_lastQuestion($conn);
-    $theQuestion = $question_tuple[0][1];
-    echo "<h3>". $theQuestion ."</h3>";
-}
 
-?>
 
 
 <?php
@@ -45,11 +43,17 @@ insert_redirect_exceptFlag($conn, $start_yet);
 <body>
 <!-- action="process_form.php" -->
     <!-- <h3>Have you had php experience before?</h3> -->
+    <?php if($start_yet=="yes"):?>
+
+    <p>The poll question is going on right now!</p>
+
+    <h3> <?php echo $theQuestion?></h3>
+
     <form method="post">
-        <div>
+        <!-- <div>
             <label for="name">Your name: </label>
             <input type="text" name ="name"><br>
-        </div>
+        </div> -->
         <div>
             <input type="radio" name="answer" value="Yes">
             <label for="answer">Yes</label>
@@ -61,6 +65,9 @@ insert_redirect_exceptFlag($conn, $start_yet);
         </div>
         <button>Send</button>
     </form>
+
+    <?php endif;?>
+
 
 
 </body>
