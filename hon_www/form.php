@@ -19,7 +19,9 @@ $theQuestion = $question_tuple[0][1];
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>
-<h3>The poll hasn't start yet, click to refresh <a href="">refresh</a></h3>
+    <div onload="reload_after(1000)"></div>
+<!-- <h3>The poll hasn't start yet, click to refresh <a href="">refresh</a></h3> -->
+<h3>The poll hasn't start yet, <strong>will appear the question when the poll started</strong></h3>
 <h3>No question for you so far!</h3>
 <?php endif;?>
 
@@ -43,6 +45,11 @@ insert_redirect_exceptFlag($conn, $start_yet);
 <body>
 <!-- action="process_form.php" -->
     <!-- <h3>Have you had php experience before?</h3> -->
+
+    <?php if($start_yet=="no" || $start_yet==NULL):?>
+        <iframe onload="reload_after(1000)"></iframe>
+    <?php endif;?>
+
     <?php if($start_yet=="yes"):?>
 
     <p>The poll question is going on right now!</p>
@@ -74,8 +81,9 @@ insert_redirect_exceptFlag($conn, $start_yet);
 
 
 <footer>
-        <script type="text/javavscript" src="Utilities/js_operations.js"></script>
+        <script type="text/javascript" src="Utilities/js_operations.js"></script>
 </footer>
+
 
 
 </html>
