@@ -110,19 +110,17 @@ function clear_table($conn, $table){
     }
 }
 
-/*get the start_poll value*/
-// function get_startPoll_value($conn){
-// foreach($startpoll_tuple as $elem){
-//     foreach($elem as $index => $val){
-//         if ($index==0 && $val!=""){
-//             // echo "<br><h3>" . $val . ": ";
-//         } elseif ($index==1 && $val!=""){
-//             if($val=="no" || $val="yes"){
-//                 $start_yet = $val;
-//             }
-//         }
-//     }
-// }
-// }
+function select_lastQuestion($conn){
+    $sql_query = "SELECT * FROM prof_questions ORDER BY ID DESC LIMIT 1";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
 
 ?>
