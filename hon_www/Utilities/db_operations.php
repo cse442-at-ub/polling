@@ -135,4 +135,24 @@ function select_lastQuestion($conn){
     }
 }
 
+/* no - poll ended, yes - poll not end*/
+function check_poll_end($r){
+    /* to detect whether the poll has ended or not*/
+    foreach($r as $elem){
+        foreach($elem as $index => $val){
+            if ($index==0 && $val!=""){
+                // echo "<br><h3>" . $val . ": ";
+            } elseif ($index==2 && $val!=""){
+                if($val=="no"){
+                    return $val;
+                    // header("Location: prof_directPage/prof_result.php");
+                }
+                // echo $val ."</h3>";
+            }
+        }
+    }
+    return "yes";
+}
+
+
 ?>
