@@ -3,9 +3,9 @@ function connect_db() {
     $host = "oceanus.cse.buffalo.edu:3306";
     $user = "honching";
     $pass = "50185646";
-    $name = "cse442_2021_summer_team_b_db";
+    $db = "cse442_2021_summer_team_b_db";
 
-    $connection = mysqli_connect($host, $user, $pass, $name);
+    $connection = mysqli_connect($host, $user, $pass, $db);
 
     if (mysqli_connect_error()) {
         exit;
@@ -17,7 +17,9 @@ function connect_db() {
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["name"])) {
+    $name = htmlspecialchars($_POST["name"]);
+
+    if (empty($name)) {
 ?>
         <!DOCTYPE html>
         <html>
@@ -54,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $instructorExists = false;
 
         while ($i = mysqli_fetch_assoc($instructorResult)) {
-            if ($i["UBIT"] == $_POST["name"]) {
+            if ($i["UBIT"] == $name) {
                 $instructorExists = true;
             }
         }
@@ -64,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $studentExists = false;
 
         while ($j = mysqli_fetch_assoc($studentResult)) {
-            if ($j["UBIT"] == $_POST["name"]) {
+            if ($j["UBIT"] == $name) {
                 $studentExists = true;
             }
         }
@@ -79,22 +81,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </h1>
         
                     <h2 style = "font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 1%; top: 1%;">
-                        Welcome, <?php echo $_POST["name"]; ?>!
+                        Welcome, <?php echo $name; ?>!
                     </h2>
 
-                    <div>
-                        <p style = "color: #585858; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 3%; top: 8%;">
-                            Current course: CSE 442
-                        </p>
-                    </div>
+                    <p style = "color: #585858; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 3%; top: 8%;">
+                        Current Course: CSE 442
+                    </p>
 
                     <form action = "Home.php" method = "post">
-                        <div style = "position: fixed; left: 3%; top: 15%;">
+                        <div style = "position: fixed; left: 3%; top: 14.5%">
                             <input type = "submit" value = "Change Course" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                         </div>
                     </form>
 
-                    <p style = "font-size: 16pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%;">
+                    <!-- <p style = "font-size: 16pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%;">
                         Create a poll:
                     </p>
 
@@ -117,11 +117,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 5px;">
                             <input type = "submit" value = "Launch Poll">
                         </div>
+                    </form> -->
+
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php">
+                        <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
+                            <input type = "submit" value = "Create Poll" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
+                        </div>
                     </form>
 
-                    <form action = "Home.php" method = "post">
-                        <div style = "position: fixed; right: 3%; top: 10.75%;">
-                            <input type = "submit" value = "Start Feedback Mode" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php">
+                        <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
+                            <input type = "submit" value = "Start Feedback Mode" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
                     </form>
                 </body>
@@ -138,26 +144,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </h1>
         
                     <h2 style = "font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 1%; top: 1%;">
-                        Welcome, <?php echo $_POST["name"]; ?>!
+                        Welcome, <?php echo $name; ?>!
                     </h2>
 
-                    <div>
-                        <p style = "color: #585858; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 3%; top: 8%;">
-                            Current course: CSE 442
-                        </p>
-                    </div>
+                    <p style = "color: #585858; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 3%; top: 8%;">
+                        Current Course: CSE 442
+                    </p>
 
                     <form action = "Home.php" method = "post">
-                        <div style = "position: fixed; left: 3%; top: 15%;">
+                        <div style = "position: fixed; left: 3%; top: 14.5%;">
                             <input type = "submit" value = "Change Course" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                         </div>
                     </form>
 
-                    <p style = "font-size: 14pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 23%;">
+                    <!-- <p style = "font-size: 14pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 23%;">
                         No poll is currently open.
                     </p>
 
-                    <!-- <p style = "font-size: 15pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%; padding: 5px;">
+                    <p style = "font-size: 15pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 20%; padding: 5px;">
                         Which of the following is the best Dwight Schrute quote?
                     </p>
 
@@ -181,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 4px;">
                             <input type = "submit" value = "Submit Response">
                         </div>
-                    </form> -->
+                    </form>
 
                     <p style = "font-size: 12pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 3%; top: 7.75%;">
                         Lecture feedback:
@@ -204,6 +208,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div style = "display: flex; justify-content: center; align-items: center; padding: 4.5px;">
                                 <input type = "submit" value = "Send Feedback" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                             </div>
+                        </div>
+                    </form> -->
+
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/pool_question/pool_question.php">
+                        <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
+                            <input type = "submit" value = "Answer Poll" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
+                        </div>
+                    </form>
+
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/Student_ajax.php">
+                        <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
+                            <input type = "submit" value = "Enter Feedback" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
                     </form>
                 </body>
