@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </form>
 
-                    <form action = "Home.php" method = "post">
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php">
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
                             <input type = "submit" value = "Start Feedback Mode" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
@@ -210,14 +210,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </form> -->
-                    
+
                     <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/pool_question/pool_question.php">
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
                             <input type = "submit" value = "Answer Poll" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
                     </form>
 
-                    <form action = "Home.php" method = "post">
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/Student_ajax.php">
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
                             <input type = "submit" value = "Enter Feedback" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
