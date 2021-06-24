@@ -9,7 +9,7 @@ function js_redirect(theUrl){
 
 /*for thank_submission.php page*/
  function js_countDown_redirect(theUrl, time_ms){
-    var seconds = 5;
+    var seconds = 2;
     var counting = setInterval(function(){
         seconds -= time_ms/1000;
         document.getElementById("count").innerText = seconds;
@@ -32,4 +32,6 @@ function reload_after(time_ms){
 function js_requestReload(){
     location.reload();
     console.log("sup");
+    console.log("sup");
 }
+

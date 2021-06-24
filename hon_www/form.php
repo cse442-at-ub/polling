@@ -16,6 +16,9 @@ if($startpoll_tuple!=NULL){
 $question_tuple = select_lastQuestion($conn);
 $theQuestion = $question_tuple[0][1];
 
+// echo $_SERVER["REQUEST_METHOD"];
+// var_dump($_POST);
+
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>

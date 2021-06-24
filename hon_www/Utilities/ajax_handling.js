@@ -1,5 +1,4 @@
 
-
 // it will return the node object, the [0] here means pointing to the first button
 // var x = document.getElementsByTagName("button")[0].attributes.item(0);
 // document.getElementById("display_thing").innerHTML = x;
@@ -66,13 +65,17 @@ function ajax_load_pollEnded(){
 function statechange_pollEnded_handler(){
     // console.log("poll end handler");
     console.log(this.readyState) //open up inspect, to check the setInterval stop or not
-    console.log(this.status);
+    // console.log(this.status);
+    // location.href = "../prof_directPage/prof_result.php";
     if(this.readyState==4 && this.status==200){
             if(this.responseText.includes("Professor has ended the poll, now redirect you to see the results")){
-                alert(this.responseText);
-                location.href = "../prof_directPage/prof_result.php";
+                // alert(this.responseText);
+                location.href = "prof_directPage/prof_result.php";
                 clearInterval(timer);
             }
     }
         // alert(this.responseText);
 }
+
+
+
