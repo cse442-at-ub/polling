@@ -43,10 +43,46 @@ function hidden(){
 <?php
 require 'connect_db.php';
 if(array_key_exists('question', $_POST)) {
-
-    print_form();
-    add_data($conn);
+    if(!error_check()){
+        replace_escape();
+        print_form();
+        add_data($conn);
+    }
 }
+
+function replace_escape(){
+
+    for ($i = 1; $i <= $_POST['choices_number']; $i++) {
+        $choice_num = $_POST["choice" . strval($i)];
+        $choice_num = str_replace(">","&gt",str_replace("<","&lt",str_replace("&","&amp",$choice_num)));
+     }
+}
+function error_check(){
+    $correct_answer_match = false;
+    $choices_number = $_POST['choices_number'];
+    for($i = 1; $i <= $choices_number; $i++) {
+        $choice_num_i = "choice" . strval($i);
+        if($_POST[$choice_num_i] == ''){
+            echo "answer should not be empty";
+            return true;
+        }
+        if($_POST[$choice_num_i] == $_POST['answer'])
+            $correct_answer_match = true;
+        for ($j = $i+1; $j <= $choices_number; $j++) {
+            $choice_num_j = "choice" . strval($j);
+            if($_POST[$choice_num_i] == $_POST[$choice_num_j]){
+                echo "repeated answers";
+                return true;
+            }
+        }
+     }
+     if(!$correct_answer_match){
+         echo "correct answer does not match any of the answer choice";
+         return true;
+     }
+    return false;
+}
+
 function print_form() {
     ?>
     <div id ='print_question' class = 'a'>
@@ -75,16 +111,12 @@ function add_data($conn){
         $choice_num = "choice" . strval($i);
         $answers = $answers . $_POST[$choice_num];
         if($i != $_POST['choices_number'])
-        $answers = $answers . ',';
+        $answers = $answers . ",";
      }
-     $sql = "INSERT INTO QA (question, answer, choices) 
-     VALUES ('$_POST[question]', '$_POST[answer]', '$answers')";
-    if ($conn->query($sql) === TRUE) {
-        
-     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-     }
-
+     $stmt = $conn->prepare("INSERT INTO QA (question, answer, choices) 
+     VALUES (?, ?, ?)");
+     $stmt->bind_param("sss", $_POST['question'], $_POST['answer'], $answers);
+     $stmt->execute();
 }
 
 ?>
