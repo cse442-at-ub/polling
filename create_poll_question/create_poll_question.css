@@ -1,0 +1,18 @@
+div.a {
+    background-color: yellow;
+    border: 2px lightgreen;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
+}
+div.b {
+    background-color: green;
+    border: 2px lightgreen;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
+
+}
+li.a {
+    border-radius: 25px;
+}
