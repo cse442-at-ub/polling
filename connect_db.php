@@ -8,8 +8,8 @@ function connect_db($host, $user, $pass, $name){
         echo mysqli_connect_error();
         exit;
     }
-    echo "<h3>Student</h3>";
-    echo "Connected successfully.";
+    // echo "<h3>Student</h3>";
+    // echo "Connected successfully.";
     return $connection;
 }
 

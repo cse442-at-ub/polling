@@ -19,8 +19,6 @@ function select_startpoll($conn){
 
     $query_res = mysqli_query($conn, $sql_query);
 
-    $r = array();
-
     if ($query_res ==false){
         echo mysqli_error($conn);
     }else{
@@ -45,8 +43,24 @@ user name empty, if name empty, we won't insert, we send alert to tell user type
 instead.
 We also check whether the poll question start or not.*/
 function insert_redirect_exceptFlag($conn, $start_yet){
-    var_dump($_POST);
-    if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']!='' && isset($_POST['answer'])){
+    /* don't delete, use for later*/
+    // if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']!='' && isset($_POST['answer'])){
+    //     $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
+    //                     VALUES('" . $_POST['name'] . "','" . $_POST['answer'] . "')";
+    //     $query_insert_res = mysqli_query($conn, $sql_insert);
+    //     if($query_insert_res==false){
+    //         echo mysqli_error($conn);
+    //     }else{
+    //         // echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
+    //         header("Location: thank_submission.php");
+    //     }
+    // }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']==''){
+    //     echo "<h3>You need to key in your name!</h3>";
+    // }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && !isset($_POST['answer'])){
+    //     echo "<h3>You need to choose your Answer!</h3>";
+    // }
+    //
+    if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && isset($_POST['answer'])){
         $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
                         VALUES('" . $_POST['name'] . "','" . $_POST['answer'] . "')";
         $query_insert_res = mysqli_query($conn, $sql_insert);
@@ -56,10 +70,8 @@ function insert_redirect_exceptFlag($conn, $start_yet){
             // echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
             header("Location: thank_submission.php");
         }
-    }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']==''){
-        echo "<h3>You need to key in your name!</h3>";
     }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && !isset($_POST['answer'])){
-        echo "<h3>You need to choose your Answer!</h3>";
+        echo "<script type='text/javascript'>alert('You need to choose your Answer!')</script>";
     }
 }
 
@@ -110,19 +122,37 @@ function clear_table($conn, $table){
     }
 }
 
-/*get the start_poll value*/
-// function get_startPoll_value($conn){
-// foreach($startpoll_tuple as $elem){
-//     foreach($elem as $index => $val){
-//         if ($index==0 && $val!=""){
-//             // echo "<br><h3>" . $val . ": ";
-//         } elseif ($index==1 && $val!=""){
-//             if($val=="no" || $val="yes"){
-//                 $start_yet = $val;
-//             }
-//         }
-//     }
-// }
-// }
+function select_lastQuestion($conn){
+    $sql_query = "SELECT * FROM prof_questions ORDER BY ID DESC LIMIT 1";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
+
+/* no - poll ended, yes - poll not end*/
+function check_poll_end($r){
+    /* to detect whether the poll has ended or not*/
+    foreach($r as $elem){
+        foreach($elem as $index => $val){
+            if ($index==0 && $val!=""){
+                // echo "<br><h3>" . $val . ": ";
+            } elseif ($index==2 && $val!=""){
+                if($val=="no"){
+                    return $val;
+                    // header("Location: prof_directPage/prof_result.php");
+                }
+                // echo $val ."</h3>";
+            }
+        }
+    }
+    return "yes";
+}
+
 
 ?>

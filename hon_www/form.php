@@ -9,15 +9,27 @@ $start_yet = NULL;
 
 // var_dump($startpoll_tuple);
 if($startpoll_tuple!=NULL){
-    $start_yet = $startpoll_tuple[0][1];
+    $start_yet = $startpoll_tuple[0][2];
 }
 
+/* pull the last question out of DB*/
+$question_tuple = select_lastQuestion($conn);
+$theQuestion = $question_tuple[0][1];
+
+// echo $_SERVER["REQUEST_METHOD"];
+// var_dump($_POST);
 
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>
-<h3>The poll haven't start yet, click to refresh <a href="">refresh</a></h3>
+    <div onload="reload_after(1000)"></div>
+<!-- <h3>The poll hasn't start yet, click to refresh <a href="">refresh</a></h3> -->
+<h3 class = "not_started_text">The poll hasn't start yet, <strong>will appear the question when the poll started</strong></h3>
+<h3 class = "not_started_text">No question for you so far!</h3>
 <?php endif;?>
+
+
+
 
 <?php
 
@@ -33,24 +45,25 @@ insert_redirect_exceptFlag($conn, $start_yet);
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
-<body>
-<!-- action="process_form.php" -->
-    <h3>Have you had php experience before?</h3>
-    <form method="post">
-        <div>
-            <label for="name">Your name: </label>
-            <input type="text" name ="name"><br>
-        </div>
-        <div>
-            <input type="radio" name="answer" value="Yes">
-            <label for="answer">Yes</label>
-        </div>
+<body onload="ajax_check_pollStarted()">
 
-        <div>
-            <input type="radio" name="answer" value="No">
-            <label for="answer">No</label>
-        </div>
-        <button>Send</button>
-    </form>
+    <!-- <?php if($start_yet=="no" || $start_yet==NULL):?> -->
+        <!-- <iframe onload="reload_after(1000)"></iframe> -->
+    <!-- <?php endif;?> -->
+
+
+    <div id="changeable">
+        <!-- <button onclick="ajax_check_pollStarted()">Change content</button> -->
+    </div>
+
 </body>
+
+
+<footer>
+        <script type="text/javascript" src="Utilities/js_operations.js"></script>
+        <script type="text/javascript" src="Utilities/ajax_handling.js"></script>
+</footer>
+
+
+
 </html>
