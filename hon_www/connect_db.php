@@ -1,6 +1,7 @@
 <?php
 
 $table_name = "student_replies";
+
 /* This function return a connection to the DB */
 function connect_db($host, $user, $pass, $name){
     $connection = mysqli_connect($host, $user, $pass, $name);
@@ -8,8 +9,8 @@ function connect_db($host, $user, $pass, $name){
         echo mysqli_connect_error();
         exit;
     }
-    echo "<h3>Student</h3>";
-    echo "Connected successfully.";
+    // echo "<h3>Student</h3>";
+    // echo "Connected successfully.";
     return $connection;
 }
 
