@@ -9,9 +9,9 @@
             echo "wrong!";
     }
     $question_limit = false;
-    if (!mysqli_connect_error()){
-        
-            $question_number = rand(0,$result->num_rows-1);
+    if (!mysqli_connect_error()){    
+            $sql = "SELECT * FROM QA ORDER BY ID DESC";
+            $result = $conn->query($sql);
             $question = $result->fetch_assoc();
             $answer = $question["answer"];
             
@@ -31,10 +31,16 @@
     </div>
     <div id = "answer_div">
         <ul style="list-style-type:none">
-            <li><input type="submit" name="choice" class="button" value="A" />&nbsp<?php echo $question["choice_A"]; ?></li>
-            <li><input type="submit" name="choice" class="button" value="B" />&nbsp<?php echo $question["choice_B"]; ?></li>
-            <li><input type="submit" name="choice" class="button" value="C" />&nbsp<?php echo $question["choice_C"]; ?></li>
-            <li><input type="submit" name="choice" class="button" value="D" />&nbsp<?php echo $question["choice_D"]; ?></li>
+            <?php
+                $alphabet = 'A';
+                $choices_answer = $question["choices"];
+                $choices_answer_array = explode(',',$choices_answer);
+                foreach ($choices_answer_array as &$choice) {
+                    echo "<li>" . $alphabet .".<input type='submit' name='choice' class='button' value='" . $choice ."' >" . "</li>";
+                    $alphabet++; 
+                }
+            ?>
+
         </ul>
     </div>
 </div>
