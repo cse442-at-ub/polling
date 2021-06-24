@@ -7,6 +7,7 @@
       color: #FF0000;
     }
   </style>
+  <title>Instructor Page</title>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -63,7 +64,7 @@
       //echo nl2br(" 144 Timestamp:  $currentTime \r\n");
       date_default_timezone_set('America/New_York');
       $currentTime = date("Y-m-d H:i:s");
-      echo ($currentTime);
+      //echo ($currentTime);
       //$sql_insert = "INSERT INTO feedBackTable(InputTime,UBIT,Feedback) VALUES('" . $currentTime . "' ,'" . $_POST['UBIT'] . "','" . $_POST['feadBack'] . "')";
       //$sql_insert = "INSERT INTO feedBackTable(UBIT,Feedback) VALUES('yli55','I am lost')";// this one works //$currentTime
       $sql_insert = "INSERT INTO feedBackTable(InputTime,UBIT,Feedback) VALUES('" . $currentTime . "' ,'instructor','" . $_POST['feadBack'] . "')";
@@ -113,7 +114,7 @@
     <input type="submit" name="submit" id="begin" value="Submit" />
 
   </form>
-  <div id="feedbackResult"> Average feedback result will be listed here... </div>
+  <div id="feedbackResult"> </div>
   <?php
   if ($flag == 'submitted') {
 
@@ -138,16 +139,16 @@
               document.getElementById('feedbackResult').innerHTML=data;
             },
             complete: function(data) {
-              setTimeout(fetchdata, 5000);
+              setTimeout(fetchdata, 2000);
             }
           });
         }
     
     
         $(document).ready(function() {
-          setTimeout(fetchdata, 5000);
+          setTimeout(fetchdata, 2000);
         }); 
-        </script>'
+        </script>
         ";
       }
       if ($_POST["feadBack"] == "End") {
