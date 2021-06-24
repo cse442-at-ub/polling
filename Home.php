@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </form> -->
 
-                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/pool_question/pool_question.php">
+                    <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/select_poll_question/pool_question.php">
                         <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
                             <input type = "submit" value = "Answer Poll" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;">
                         </div>
