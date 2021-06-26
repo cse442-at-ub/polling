@@ -6,7 +6,7 @@
 </head>
 <body>
     <h3>Are you a student or professor</h3>
-    <button onclick="location.href='prof_directPage/prof.php'">Professor</button>
+    <button onclick="location.href='prof_directPage/prof_selectMode.php'">Professor</button>
     <button onclick="location.href='form.php'">Student</button>
 </body>
 </html>

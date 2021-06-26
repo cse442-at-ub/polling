@@ -6,7 +6,7 @@
 require '../connect_db.php';
 require 'db_operations.php';
 
-$startpoll_tuple = select_startpoll($conn);
+$startpoll_tuple = select_startpoll($conn, "Flags");
 
 $start_yet = NULL;
 
