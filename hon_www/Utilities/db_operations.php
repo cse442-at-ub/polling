@@ -29,6 +29,19 @@ function select_startpoll($conn, $table_flags){
     }
 }
 
+function select_mode($conn, $table_flags){
+    $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='mode_rightNow'";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
+
 /*it's going to delete the tuples where title = start_poll (the flag)*/
 function delete_startpoll($conn, $table_flags){
     $sql_query = "DELETE FROM " . $table_flags . " WHERE flag_name='start_poll'";
@@ -36,6 +49,49 @@ function delete_startpoll($conn, $table_flags){
     if ($query_res ==false){
         echo mysqli_error($conn);
     }else{
+    }
+}
+
+function insert_questionMode($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+function insert_feedbackMode($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+function insert_questionModeANDredirect($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+        header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
+    }
+    
+}
+
+function insert_feedbackModeANDredirect($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+        header("Location: https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/Student_ajax.php");
     }
 }
 
