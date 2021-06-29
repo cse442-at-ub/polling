@@ -15,6 +15,6 @@ function connect_db($host, $user, $pass, $name){
 
 // $conn = connect_db("localhost", "hon", "123", "cse442localdb");
 
-$conn = connect_db("oceanus.cse.buffalo.edu:3306", "honching", "50185646", "honching_db");
+$conn = connect_db("oceanus.cse.buffalo.edu:3306", "honching", "50185646", "cse442_2021_summer_team_b_db");
 
 ?>

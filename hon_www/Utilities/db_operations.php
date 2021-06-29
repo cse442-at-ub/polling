@@ -80,10 +80,13 @@ function insert_questionModeANDredirect($conn, $table_flags){
         echo mysqli_error($conn);
     }else{
         header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
+        // header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
     }
     
 }
 
+
+// redirect professor to decide if start the feedback page (Li's link)
 function insert_feedbackModeANDredirect($conn, $table_flags){
     $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
     VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
@@ -91,7 +94,7 @@ function insert_feedbackModeANDredirect($conn, $table_flags){
     if($query_insert_res==false){
         echo mysqli_error($conn);
     }else{
-        header("Location: https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/Student_ajax.php");
+        header("Location: https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php");
     }
 }
 
