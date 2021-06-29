@@ -3,9 +3,11 @@
 require 'connect_db.php';
 require 'Utilities/db_operations.php';
 
-$startpoll_tuple = select_startpoll($conn);
+$startpoll_tuple = select_startpoll($conn, "Flags");
 
 $start_yet = NULL;
+
+// you can NOT clear the student reply table here, since there will be more than one incoming, it will erase all other data
 
 // var_dump($startpoll_tuple);
 if($startpoll_tuple!=NULL){

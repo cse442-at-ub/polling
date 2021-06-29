@@ -1,6 +1,5 @@
 <?php
 
-$table_name = "student_replies";
 
 /* This function return a connection to the DB */
 function connect_db($host, $user, $pass, $name){

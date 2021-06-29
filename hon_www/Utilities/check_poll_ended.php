@@ -3,7 +3,7 @@
 require '../connect_db.php';
 require 'db_operations.php';
 
-$r = select_startpoll($conn);
+$r = select_startpoll($conn, "Flags");
 
 $val = check_poll_end($r);
 
