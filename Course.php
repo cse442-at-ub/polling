@@ -207,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             Select a course:
                         </h2>
 
-                        <form action = "Home.php" method = "post">
+                        <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/student_waitMode.php" method = "post">
                             <div style = "display: flex; justify-content: center; align-items: center;">
                                 <select name = "course" id = "course">
 <?php
