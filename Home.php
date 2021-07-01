@@ -24,7 +24,7 @@ function connect_db() {
 <?php
 $conn = connect_db();
 
-function insert_questionModeANDredirect($conn, $table_flags) {
+function insert_questionMode($conn, $table_flags) {
     $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
     VALUES('" . "mode_rightNow" . "','" . "question" . "')";
 
@@ -34,7 +34,6 @@ function insert_questionModeANDredirect($conn, $table_flags) {
         echo mysqli_error($conn);
     }
     else {
-        header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
     }
 }
 
@@ -74,7 +73,8 @@ function clear_table($conn, $table) {
 clear_table($conn, "Flags");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['questionMode'] == "yes") {
-    insert_questionModeANDredirect($conn, 'Flags');
+    insert_questionMode($conn, 'Flags');
+    header("Location: Polling.php");
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['feedbackMode'] == "yes") {
     insert_feedbackModeANDredirect($conn, 'Flags');
@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <form method = "post">
                     <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
-                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Create Poll </button>
+                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Question Mode </button>
                     </div>
                 </form>
 
