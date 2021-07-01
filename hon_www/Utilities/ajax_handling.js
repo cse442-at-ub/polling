@@ -112,3 +112,36 @@ function statechange_mode_handler(){
     }
         // alert(this.responseText);
 }
+
+
+
+/* for student to see if professor stop viewing the results and restrict all students back into the feedback mode*/
+function ajax_check_stopViewingResults(){
+    timer = setInterval(ajax_load_stopView, 1000);
+    console.log(typeof timer)
+}
+
+function ajax_load_stopView(){
+    // to make a http request, we need the instance of the object
+    var xhttp = new XMLHttpRequest();
+    // method, url, async
+    xhttp.open("GET", "Utilities/check_stop_viewingResults.php", true);
+    xhttp.send();
+    //only pass in the name of the callback function
+    xhttp.onreadystatechange=statechange_stopView_handler;
+}
+
+function statechange_stopView_handler(){
+    // console.log("poll end handler");
+    console.log(this.readyState) //open up inspect, to check the setInterval stop or not
+    // console.log(this.status);
+    // location.href = "../prof_directPage/prof_result.php";
+    if(this.readyState==4 && this.status==200){
+            if(this.responseText.includes("stop viewing the results")){
+                alert("Professor ask you to stop viewing the results, now redirecting back to feedback. ");
+                location.href = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/Student_ajax.php";
+                clearInterval(timer);
+            } 
+    }
+        // alert(this.responseText);
+}
