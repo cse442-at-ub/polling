@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="choose_poll_question.css">
 <?php
     require 'connect_db.php';
-    $sql = "SELECT * FROM QA";
+    $sql = "SELECT DISTINCT * FROM QA";
     $result = $conn->query($sql);
     $question_number = -1;
     $sql_data = array();
@@ -23,21 +23,41 @@
                 }
             echo "<p>Answer: " . $row['answer'] . "</p>";
             echo "</div>";
-            echo "select question #<input id='choice' type='submit' name='choice' class='button' value='" . $question_number ."' >";
+            echo "<form method='post'>";
+            ?>
+                <p>select question #<input onclick="myfunction()" id ='choice' type='submit' name ='choice' class='button' value='<?php echo $question_number ?>'>
+                <script>
+                function myfunction(){
+                    window.open("http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php");
+
+                    
+
+                }
+                </script>
+            <?php
+            echo "</form>";
             echo "</div>";
         }
       } else {
         echo "0 results";
       }
 
-    // if(array_key_exists('choice', $_POST)) {
-    //     $sql = "DELETE FROM QA WHERE ";
+    if(array_key_exists('choice', $_POST)) {
+        $question = $sql_data[$_POST['choice']][0];
+        $choice = $sql_data[$_POST['choice']][1];
+        $answer = $sql_data[$_POST['choice']][2];
+        // $sql = "DELETE FROM QA WHERE question='$question' and choices='$choice' and answer='$answer'";
 
-    //     if ($conn->query($sql) === TRUE) {
-    //         echo "Record deleted successfully";
-    //     } else {
-    //         echo "Error deleting record: " . $conn->error;
-    //             }
-    // }
+        // if (!($conn->query($sql) === TRUE)) {
+        //     echo "Error deleting record: " . $conn->error;
+        //         }
+        $sql = "INSERT INTO QA (question, answer, choices) 
+        VALUES ('$question', '$answer', '$choice')";
+        if (!($conn->query($sql) === TRUE)) {
+            echo "Error insert record: " . $conn->error;
+                }
+        //header('location.href = "http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php"');
+
+    }
 ?>
 </html>
