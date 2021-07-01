@@ -20,6 +20,8 @@ clear_table($conn, "Flags");
 
 insert_startPoll_no($conn, "Flags");
 
+insert_profEndedthePoll($conn, "Flags");
+
 
 $r = selectAll_exceptStartPoll($conn);
 

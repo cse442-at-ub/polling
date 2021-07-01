@@ -24,9 +24,8 @@ $theQuestion = $question_tuple[0][1];
 ?>
 
 <?php if($start_yet=="no" || $start_yet==NULL):?>
-    <div onload="reload_after(1000)"></div>
 <!-- <h3>The poll hasn't start yet, click to refresh <a href="">refresh</a></h3> -->
-<h3 class = "not_started_text">The poll hasn't start yet, <strong>will appear the question when the poll started</strong></h3>
+<h3 class = "not_started_text">Currently in question mode, the poll hasn't start yet, <strong>will appear the question when the poll started</strong></h3>
 <h3 class = "not_started_text">No question for you so far!</h3>
 <?php endif;?>
 
@@ -49,6 +48,7 @@ insert_redirect_exceptFlag($conn, $start_yet);
 </head>
 <body onload="ajax_check_pollStarted()">
 
+    <iframe hidden onload="ajax_check_pollEnded()"></iframe>
     <!-- <?php if($start_yet=="no" || $start_yet==NULL):?> -->
         <!-- <iframe onload="reload_after(1000)"></iframe> -->
     <!-- <?php endif;?> -->
