@@ -68,9 +68,10 @@ function statechange_pollEnded_handler(){
     // console.log(this.status);
     // location.href = "../prof_directPage/prof_result.php";
     if(this.readyState==4 && this.status==200){
+        // alert(this.responseText);
             if(this.responseText.includes("Professor has ended the poll, now redirect you to see the results")){
-                // alert(this.responseText);
-                location.href = "prof_directPage/prof_result.php";
+                alert(this.responseText);
+                location.href = "student_see_result.php";
                 clearInterval(timer);
             }
     }

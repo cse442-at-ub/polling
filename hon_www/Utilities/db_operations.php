@@ -29,6 +29,22 @@ function select_startpoll($conn, $table_flags){
     }
 }
 
+/* to select the flag "prof_end_thePoll" which indicate if professor
+stopped a RUNNING poll question*/
+function select_prof_end_thePoll($conn, $table_flags){
+    $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='prof_end_thePoll'";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
+
+
 function select_mode($conn, $table_flags){
     $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='mode_rightNow'";
 
@@ -112,7 +128,7 @@ function insert_redirect_exceptFlag($conn, $start_yet){
     //     if($query_insert_res==false){
     //         echo mysqli_error($conn);
     //     }else{
-    //         // echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
+    //         // echo "<h1>Thank you for your poll response   </h1> <a href='see_result_mid.php'>See result</a>";
     //         header("Location: thank_submission.php");
     //     }
     // }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']==''){
@@ -128,7 +144,7 @@ function insert_redirect_exceptFlag($conn, $start_yet){
         if($query_insert_res==false){
             echo mysqli_error($conn);
         }else{
-            // echo "<h1>Thank you for your poll response   </h1> <a href='see_result.php'>See result</a>";
+            // echo "<h1>Thank you for your poll response   </h1> <a href='see_result_mid.php'>See result</a>";
             header("Location: thank_submission.php");
         }
     }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && !isset($_POST['answer'])){
@@ -151,9 +167,21 @@ function insert_startPoll_fromPost($conn, $table){
     }
 }
 
+/*used as the poll question hasn't start yet, and or ended by professor(not using as it.)*/
 function insert_startPoll_no($conn, $table_flags){
     $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
     VALUES('" . "start_poll" . "','" . "no" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+/* insert a row indicate professor ended the poll question*/
+function insert_profEndedthePoll($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "prof_end_thePoll" . "','" . "yes" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -191,7 +219,7 @@ function select_lastQuestion($conn){
     }
 }
 
-/* no - poll ended, yes - poll not end*/
+/* no - poll ended, perhaps didn't open up or poll ended by professor, yes - poll not end*/
 function check_poll_end($r){
     /* to detect whether the poll has ended or not*/
     foreach($r as $elem){
@@ -208,6 +236,16 @@ function check_poll_end($r){
         }
     }
     return "yes";
+}
+
+/*if professor ended the poll while it running*/
+function check_poll_end_by_professor($r){
+    /* to detect whether the poll has ended or not*/
+    $tuple = $r[0];
+    if($tuple!=NULL){
+        return $tuple[2];
+    }
+    return NULL;
 }
 
 
