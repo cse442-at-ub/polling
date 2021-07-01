@@ -58,6 +58,21 @@ function select_mode($conn, $table_flags){
     }
 }
 
+/* select the flag "stop viewing results" function to force all student back into
+feedback mode*/
+function select_stopViewing($conn, $table_flags){
+    $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='prof_stop_viewingResults'";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
+
 /*it's going to delete the tuples where title = start_poll (the flag)*/
 function delete_startpoll($conn, $table_flags){
     $sql_query = "DELETE FROM " . $table_flags . " WHERE flag_name='start_poll'";
@@ -182,6 +197,18 @@ function insert_startPoll_no($conn, $table_flags){
 function insert_profEndedthePoll($conn, $table_flags){
     $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
     VALUES('" . "prof_end_thePoll" . "','" . "yes" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+/* insert a row indicate professor stop viewing results and restrict all
+student back into the feedback mode.*/
+function insert_stopViewingFlag($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "prof_stop_viewingResults" . "','" . "yes" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
