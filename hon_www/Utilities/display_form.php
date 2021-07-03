@@ -1,6 +1,3 @@
-
-
-
 <?php 
 
 require '../connect_db.php';
@@ -19,6 +16,14 @@ if($startpoll_tuple!=NULL){
 $question_tuple = select_lastQuestion($conn);
 $theQuestion = $question_tuple[0][1];
 
+
+// var_dump($question_tuple);
+$the_choices_str = $question_tuple[0][3];
+
+$the_choices_arr = explode(",", $the_choices_str);
+// var_dump($the_choices_arr);
+
+
 ?>
 
 <!-- it won't return the html text unless this condition go through -->
@@ -33,7 +38,7 @@ $theQuestion = $question_tuple[0][1];
         <label for="name">Your name: </label>
         <input type="text" name ="name"><br>
     </div> -->
-    <div>
+    <!-- <div id = "choices">
         <input type="radio" name="answer" value="Yes">
         <label for="answer">Yes</label>
     </div>
@@ -41,7 +46,16 @@ $theQuestion = $question_tuple[0][1];
     <div>
         <input type="radio" name="answer" value="No">
         <label for="answer">No</label>
-    </div>
+    </div> -->
+
+    <?php 
+        for($i=0; $i<count($the_choices_arr); $i++){
+            echo "<input type='radio' name='answer' value=".$the_choices_arr[$i].">";
+            echo "<label for='answer'>" . $the_choices_arr[$i] . "</label><br>";
+            // var_dump($the_choices_arr[$i]);
+        }
+    ?>
+
     <button id="sup">Send</button>
 </form>
 

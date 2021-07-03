@@ -6,7 +6,7 @@ require '../Utilities/db_operations.php';
 $table_replies = "student_replies";
 // clear both entire table when professor get to this page, then also set the flag to "yes" if user choose to do so
 clear_table($conn, "student_replies");
-clear_table($conn, "Flags");
+clear_table_exceptMode($conn, "Flags");
 insert_startPoll_fromPost($conn, "Flags");
 
 // extract the last question from DB
@@ -17,8 +17,8 @@ $theQuestion = $question_tuple[0][1];
 if($_SERVER["REQUEST_METHOD"]=="POST" && $_POST['start_poll']=="no"){
     echo "<h3>Okay then, then poll is not going to start until you say so</h3>";
 } elseif($_SERVER["REQUEST_METHOD"]=="POST" && $_POST['start_poll']=="yes"){
-    //it's going to remove all existing tuples(except the flag 'start_poll') when prof start the poll question
-    clear_table($conn, $table_name);
+    //it's going to remove all existing tuples of student replies when prof start the poll question
+    clear_table($conn, "student_replies");
     header("Location: prof_mid.php");
 }
 

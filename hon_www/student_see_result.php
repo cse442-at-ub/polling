@@ -7,12 +7,14 @@ require 'Utilities/db_operations.php';
 // extract the last question from DB, make sure there is question within the DB
 $question_tuple = select_lastQuestion($conn);
 $theQuestion = $question_tuple[0][1];
+$theCorrectAnswer = $question_tuple[0][2];
 
 
 $r = array();
 
 echo "<h3>The current poll question ended, displaying the result</h3>";
 echo "<p>" . $theQuestion ."</p>";
+echo "<p> The correct answer is: " . $theCorrectAnswer . "</p>";
 
 $r = selectAll_exceptStartPoll($conn);
 
