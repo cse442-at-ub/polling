@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require 'connect_db.php';
 require 'Utilities/db_operations.php';
 
@@ -33,7 +35,7 @@ $theQuestion = $question_tuple[0][1];
 
 
 <?php
-
+// var_dump($_SESSION["UBIT"]);  //test if session variable working
 insert_redirect_exceptFlag($conn, $start_yet);
 // var_dump($_POST);
 

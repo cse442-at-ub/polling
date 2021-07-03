@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 
 /*it's going to select all rows/tuples of our table except the start_poll*/
 function selectAll_exceptStartPoll($conn){
@@ -135,26 +135,9 @@ user name empty, if name empty, we won't insert, we send alert to tell user type
 instead.
 We also check whether the poll question start or not.*/
 function insert_redirect_exceptFlag($conn, $start_yet){
-    /* don't delete, use for later*/
-    // if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']!='' && isset($_POST['answer'])){
-    //     $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
-    //                     VALUES('" . $_POST['name'] . "','" . $_POST['answer'] . "')";
-    //     $query_insert_res = mysqli_query($conn, $sql_insert);
-    //     if($query_insert_res==false){
-    //         echo mysqli_error($conn);
-    //     }else{
-    //         // echo "<h1>Thank you for your poll response   </h1> <a href='see_result_mid.php'>See result</a>";
-    //         header("Location: thank_submission.php");
-    //     }
-    // }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && $_POST['name']==''){
-    //     echo "<h3>You need to key in your name!</h3>";
-    // }elseif($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && !isset($_POST['answer'])){
-    //     echo "<h3>You need to choose your Answer!</h3>";
-    // }
-    //
     if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && isset($_POST['answer'])){
         $sql_insert = "INSERT INTO student_replies(id, student_name, student_answer)
-                        VALUES(DEFAULT," . "'111'," . "'" . $_POST['answer'] . "')";
+                        VALUES(DEFAULT," . "'" . $_SESSION["UBIT"] . "'" . "," . "'" . $_POST['answer'] . "')";
         $query_insert_res = mysqli_query($conn, $sql_insert);
         if($query_insert_res==false){
             echo mysqli_error($conn);
@@ -232,6 +215,25 @@ function clear_table($conn, $table){
     }else{
     }
 }
+
+
+function clear_table_exceptMode($conn, $table){
+    // is to reinsert id column, since each time we clear the table without it, the id increment number is inherit from the
+    //last tuple whether it's deleted or not.
+    $drop_id_column_query = "ALTER TABLE " . $table . " DROP id";
+    mysqli_query($conn, $drop_id_column_query);
+    $reinsert_id_query = "ALTER TABLE " . $table . " ADD id INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (id), AUTO_INCREMENT=1";
+    mysqli_query($conn, $reinsert_id_query);
+    //it's going to remove all existing tuples(except the flag 'start_poll') when prof start the poll question
+    $clearTable_query = "DELETE FROM " . $table . " WHERE flag_name<>'mode_rightNow'";
+    // echo $clearTable_query;
+    $clearTable_res = mysqli_query($conn, $clearTable_query);
+    if ($clearTable_res ==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
 
 function select_lastQuestion($conn){
     $sql_query = "SELECT * FROM QA ORDER BY ID DESC LIMIT 1";

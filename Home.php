@@ -177,13 +177,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <form method = "post">
                     <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
-                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Question Mode </button>
+                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Polling Mode </button>
                     </div>
                 </form>
 
                 <form method = "post">
                     <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
-                        <button name = "feedbackMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Start Feedback Mode </button>
+                        <button name = "feedbackMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Feedback Mode </button>
                     </div>
                 </form>
 
