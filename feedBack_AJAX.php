@@ -14,6 +14,9 @@
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <?php
+
+  require 'hon_www/Utilities/db_operations.php';
+
   $db_host = "oceanus.cse.buffalo.edu:3306";
   $db_name = "cse442_2021_summer_team_b_db"; //honching_db yli55_db is not correct, here is our summer database name
   $db_user = "yli55"; //honching
@@ -46,6 +49,12 @@
   $flag = '';
   $update = '';
   $currentTime = '';
+
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['feedbackMode'] == "yes") {
+    echo "<h1>". $_SESSION["UBIT"] ."</h1>";
+    insert_feedbackMode($conn, 'Flags');
+  }
+
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $flag = 'submitted';
 

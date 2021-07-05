@@ -7,6 +7,7 @@ $course = htmlspecialchars($_POST["course"]);
 
 $_SESSION["Course"] = $course;
 
+
 function connect_db() {
     $host = "oceanus.cse.buffalo.edu:3306";
     $user = "honching";
@@ -95,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!DOCTYPE html>
         <html lang = "en">
             <body onload = "ajax_check_mode_rn()">
+                <iframe hidden onload="ajax_check_ubit()"></iframe>
                 <h1 style = "color: blue; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 1%; top: 1%;">
                     University at Buffalo Polling and Feedback System 
                 </h1>
@@ -116,11 +118,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p style = "font-size: 14.5pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 24.5%;">
                     This course is currently inactive.
                 </p>
+
             </body>
 
             <footer>
                 <script type = "text/javascript" src = "Utilities/js_operations.js"></script>
                 <script type = "text/javascript" src = "Utilities/ajax_handling.js"></script>
+                <script type = "text/javascript" src = "Utilities/test.js"></script>
             </footer>
         </html>
 <?php

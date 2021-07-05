@@ -84,8 +84,9 @@ function delete_startpoll($conn, $table_flags){
 }
 
 function insert_questionMode($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    // echo "<h1>". "87" ."</h1>";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"] . "'" . "," . "'" . "mode_rightNow" . "','" . "question" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -94,8 +95,9 @@ function insert_questionMode($conn, $table_flags){
 }
 
 function insert_feedbackMode($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    // echo "<h1>". "97" ."</h1>";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "mode_rightNow" . "','" . "feedback" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -103,9 +105,10 @@ function insert_feedbackMode($conn, $table_flags){
     }
 }
 
+
 function insert_questionModeANDredirect($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "mode_rightNow" . "','" . "question" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -119,8 +122,8 @@ function insert_questionModeANDredirect($conn, $table_flags){
 
 // redirect professor to decide if start the feedback page (Li's link)
 function insert_feedbackModeANDredirect($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "mode_rightNow" . "','" . "feedback" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -155,8 +158,8 @@ function insert_startPoll_fromPost($conn, $table){
     // just detect the _server even if not within the same scripts, think of it pass in as "one";
     if($_SERVER["REQUEST_METHOD"]=="POST"){
         // var_dump($_POST);
-        $sql_insert = "INSERT INTO " . $table . "(flag_name, flag_val)
-                        VALUES('" . "start_poll" . "','" . $_POST['start_poll'] . "')";
+        $sql_insert = "INSERT INTO " . $table . "(course_name, flag_name, flag_val)
+                        VALUES('". $_SESSION["Course"]."'". "," ."'" . "start_poll" . "','" . $_POST['start_poll'] . "')";
         $query_insert_res = mysqli_query($conn, $sql_insert);
         if($query_insert_res==false){
             echo mysqli_error($conn);
@@ -167,8 +170,8 @@ function insert_startPoll_fromPost($conn, $table){
 
 /*used as the poll question hasn't start yet, and or ended by professor(not using as it.)*/
 function insert_startPoll_no($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "start_poll" . "','" . "no" . "')";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "start_poll" . "','" . "no" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -178,8 +181,8 @@ function insert_startPoll_no($conn, $table_flags){
 
 /* insert a row indicate professor ended the poll question*/
 function insert_profEndedthePoll($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "prof_end_thePoll" . "','" . "yes" . "')";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "prof_end_thePoll" . "','" . "yes" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -190,8 +193,8 @@ function insert_profEndedthePoll($conn, $table_flags){
 /* insert a row indicate professor stop viewing results and restrict all
 student back into the feedback mode.*/
 function insert_stopViewingFlag($conn, $table_flags){
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "prof_stop_viewingResults" . "','" . "yes" . "')";
+    $sql_insert = "INSERT INTO " . $table_flags . "(course_name, flag_name, flag_val)
+    VALUES('". $_SESSION["Course"]."'". "," ."'" . "prof_stop_viewingResults" . "','" . "yes" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
         echo mysqli_error($conn);
@@ -272,7 +275,7 @@ function check_poll_end_by_professor($r){
     /* to detect whether the poll has ended or not*/
     $tuple = $r[0];
     if($tuple!=NULL){
-        return $tuple[2];
+        return $tuple[3];
     }
     return NULL;
 }
