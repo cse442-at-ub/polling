@@ -7,9 +7,10 @@ $r = select_mode($conn, "Flags");
 $val = NULL;
 
 // echo var_dump($r);
+echo var_dump($_SESSION["UBIT"]);
 
 if($r!=NULL){
-    $val = $r[0][2];
+    $val = $r[0][3];
 }
 
 if($val=="question"){

@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             University at Buffalo Polling and Feedback System 
                         </h1>
 
-                        <form action = "" method = "post">
+                        <form action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/addCourse.php" method = "post">
                             <div style = "position: fixed; left: 3%; top: 10.5%">
                                 <input type = "submit" value = "Create Course" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                             </div>

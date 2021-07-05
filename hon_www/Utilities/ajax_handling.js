@@ -101,6 +101,7 @@ function statechange_mode_handler(){
     console.log(this.readyState) //open up inspect, to check the setInterval stop or not
     // console.log(this.status);
     // location.href = "../prof_directPage/prof_result.php";
+    console.log(this.responseText);
     if(this.readyState==4 && this.status==200){
             if(this.responseText.includes("Question Mode")){
                 // alert(this.responseText);

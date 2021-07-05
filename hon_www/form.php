@@ -13,7 +13,7 @@ $start_yet = NULL;
 
 // var_dump($startpoll_tuple);
 if($startpoll_tuple!=NULL){
-    $start_yet = $startpoll_tuple[0][2];
+    $start_yet = $startpoll_tuple[0][3];
 }
 
 /* pull the last question out of DB*/

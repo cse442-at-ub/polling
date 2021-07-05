@@ -9,7 +9,7 @@ $val = NULL;
 // echo var_dump($r);
 
 if($r!=NULL){
-    $val = $r[0][2];
+    $val = $r[0][3];
 }
 
 if($val=="yes"){
