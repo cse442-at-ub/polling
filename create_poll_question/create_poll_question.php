@@ -101,7 +101,11 @@ function print_form() {
     </div>
     <div id = 'print_answer' class="a">
     <?php echo "<h1> Answer: $_POST[answer]</h1>"; ?><br>
+
+    <button onclick='location.href = "http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php"'>Question Mode</button>
     </div>
+    
+
     <?php
 }
 function add_data($conn){

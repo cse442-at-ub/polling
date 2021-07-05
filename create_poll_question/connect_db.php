@@ -6,7 +6,7 @@
 // $db_user="honching";
 // $db_pass="50185646";
 $db_host = "oceanus.cse.buffalo.edu:3306";
-$db_name = "honching_db";
+$db_name = "cse442_2021_summer_team_b_db";
 $db_user="honching";
 $db_pass="50185646";
 
