@@ -1,9 +1,11 @@
 <?php
 
+//this page useless now, it's functionality already plant in Home.php
+
 require '../connect_db.php';
 require '../Utilities/db_operations.php';
 
-// this also need to be talk to Elias, don't duplicate the row "node_rightNow"!
+
 clear_table($conn, "Flags");
 
 if($_SERVER["REQUEST_METHOD"]=="POST" && $_POST['questionMode']=="yes"){

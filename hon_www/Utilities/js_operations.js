@@ -22,7 +22,7 @@ function js_redirect(theUrl){
 }
 
 
-/* it's for see_result.php page will reload page every 1 second/ every time_ms */
+/* it's for see_result_mid.php page will reload page every 1 second/ every time_ms */
 function reload_after(time_ms){
 
     // will call this function after time_ms millisecond

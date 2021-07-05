@@ -1,9 +1,15 @@
 <?php
 session_start();
 
+require 'hon_www/Utilities/db_operations.php';
+
 $course = htmlspecialchars($_POST["course"]);
 
-$_SESSION["Course"] = $course;
+// modify
+// if(!empty($course)){
+    $_SESSION["Course"] = $course;
+// }
+
 
 function connect_db() {
     $host = "oceanus.cse.buffalo.edu:3306";
@@ -24,65 +30,18 @@ function connect_db() {
 <?php
 $conn = connect_db();
 
-function insert_questionModeANDredirect($conn, $table_flags) {
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
-
-    $query_insert_res = mysqli_query($conn, $sql_insert);
-
-    if ($query_insert_res == false) {
-        echo mysqli_error($conn);
-    }
-    else {
-        header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
-    }
-}
-
-function insert_feedbackModeANDredirect($conn, $table_flags) {
-    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
-    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
-
-    $query_insert_res = mysqli_query($conn, $sql_insert);
-
-    if ($query_insert_res == false) {
-        echo mysqli_error($conn);
-    }
-    else {
-        header("Location: https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php");
-    }
-}
-
-function clear_table($conn, $table) {
-    $drop_id_column_query = "ALTER TABLE " . $table . " DROP id";
-
-    mysqli_query($conn, $drop_id_column_query);
-
-    $reinsert_id_query = "ALTER TABLE " . $table . " ADD id INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (id), AUTO_INCREMENT=1";
-    mysqli_query($conn, $reinsert_id_query);
-
-    $clearTable_query = "DELETE FROM " . $table;
-
-    $clearTable_res = mysqli_query($conn, $clearTable_query);
-
-    if ($clearTable_res == false) {
-        echo mysqli_error($conn);
-    }
-    else {
-    }
-}
 
 clear_table($conn, "Flags");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['questionMode'] == "yes") {
-    insert_questionModeANDredirect($conn, 'Flags');
-}
-elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['feedbackMode'] == "yes") {
-    insert_feedbackModeANDredirect($conn, 'Flags');
-}
 ?>
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // modify
+    // echo "<h1>YO</h1>";
+    // echo "<h1>" . $_SESSION["Course"] . "</h1>";
+    // echo "<h1>" . $_SESSION["UBIT"] . "</h1>";
+
     if (empty($_SESSION["Course"])) {
         $courses = [];
 
@@ -113,11 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     University at Buffalo Polling and Feedback System 
                 </h1>
 
-                <form action = "" method = "post">
+                <!--Only allow user to change course in course php, avoid errors-->
+                <!-- <form action = "" method = "post">
                     <div style = "position: fixed; left: 3%; top: 10.5%">
                         <input type = "submit" value = "Create Course" style = "font-size: 10pt; font-family: Tahoma; font-weight: normal;">
                     </div>
-                </form>
+                </form> -->
 
                 <h2 style = "font-size: 16pt; font-family: Tahoma; font-weight: normal; text-align: center; margin-top: 23.5%;">
                     Select a course:
@@ -160,7 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h1 style = "color: blue; font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; left: 1%; top: 1%;">
                     University at Buffalo Polling and Feedback System 
                 </h1>
-        
                 <h2 style = "font-size: 11pt; font-family: Tahoma; font-weight: normal; position: fixed; right: 1%; top: 1%;">
                     Welcome, <?php echo $_SESSION["UBIT"]; ?>!
                 </h2>
@@ -175,15 +134,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </form>
 
-                <form method = "post">
+                <form method = "POST" action="Polling.php">
                     <div style = "display: flex; justify-content: center; align-items: center; padding: 7px; margin-top: 23.5%;">
-                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Create Poll </button>
+                        <button name = "questionMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Polling Mode </button>
                     </div>
                 </form>
 
-                <form method = "post">
+                <form method = "POST" action = "https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php">
                     <div style = "display: flex; justify-content: center; align-items: center; padding: 7px;">
-                        <button name = "feedbackMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Start Feedback Mode </button>
+                        <button name = "feedbackMode" type = "submit" value = "yes" style = "font-size: 11pt; font-family: Tahoma; font-weight: normal;"> Feedback Mode </button>
                     </div>
                 </form>
 
