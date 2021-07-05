@@ -53,7 +53,8 @@ if (!empty($_GET['status'])) {
     <!-- <div class="col-md-12" id="importFrm" style="display: none;"> -->
     <div class="col-md-12 head">
         <form action="compare.php" method="post" enctype="multipart/form-data">
-            Course Title: <input type="text" name="course" value="<?php echo $course; ?>">
+            Course Title: <input type="text" name="course" value="<?php //echo $course;
+                                                                    htmlspecialchars($course) ?>">
             <br><br>
             <input type="file" name="file" />
             <input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">
