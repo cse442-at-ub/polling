@@ -1,6 +1,7 @@
 <html>
 <link rel="stylesheet" href="choose_poll_question.css">
 <?php
+
     require 'connect_db.php';
     $sql = "SELECT DISTINCT * FROM QA";
     $result = $conn->query($sql);
@@ -8,6 +9,10 @@
     $sql_data = array();
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            $row['question'] = str_replace(">","&gt",str_replace("<","&lt",str_replace("&","&amp",$row['question'])));
+            $row['choices'] = str_replace(">","&gt",str_replace("<","&lt",str_replace("&","&amp",$row['choices'])));
+            $row['answer'] = str_replace(">","&gt",str_replace("<","&lt",str_replace("&","&amp",$row['answer'])));
+
             $array = array($row['question'],$row['choices'],$row['answer']);
             array_push($sql_data,$array);
             echo "<div id='question_number" . strval($question_number) . "' class='c'>";
@@ -28,8 +33,10 @@
                 <p>select question #<input onclick="myfunction()" id ='choice' type='submit' name ='choice' class='button' value='<?php echo $question_number ?>'>
                 <script>
                 function myfunction(){
-                    window.open("http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php");
-
+                   //window.open("http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php");
+                    <?php                     
+                    header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php");
+                    ?>
                     
 
                 }
@@ -51,12 +58,11 @@
         // if (!($conn->query($sql) === TRUE)) {
         //     echo "Error deleting record: " . $conn->error;
         //         }
-        $sql = "INSERT INTO QA (question, answer, choices) 
-        VALUES ('$question', '$answer', '$choice')";
-        if (!($conn->query($sql) === TRUE)) {
-            echo "Error insert record: " . $conn->error;
-                }
-        //header('location.href = "http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/hon_www/prof_directPage/prof_decideStartPoll.php"');
+        $stmt = $conn->prepare("INSERT INTO QA (question, answer, choices) 
+        VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $question, $answer, $choice);
+        $stmt->execute();
+        echo $question . $choice . $answer;
 
     }
 ?>
