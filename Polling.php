@@ -5,12 +5,12 @@ require 'hon_www/Utilities/db_operations.php';
 require 'hon_www/connect_db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['questionMode'] == "yes") {
-    echo "<h1>". $_SESSION["Course"] ."</h1>";
-    echo "<h1>". $_SESSION["UBIT"] ."</h1>";
+    // echo "<h1>". $_SESSION["Course"] ."</h1>";
+    // echo "<h1>". $_SESSION["UBIT"] ."</h1>";
     insert_questionMode($conn, 'Flags');
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['feedbackMode'] == "yes") {
-    echo "<h1>". $_SESSION["UBIT"] ."</h1>";
+    // echo "<h1>". $_SESSION["UBIT"] ."</h1>";
     insert_feedbackMode($conn, 'Flags');
 }
 
