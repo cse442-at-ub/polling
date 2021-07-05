@@ -4,15 +4,21 @@ require '../connect_db.php';
 require '../Utilities/display.php';
 require '../Utilities/db_operations.php';
 
+// extract the last question from DB, make sure there is question within the DB
+$question_tuple = select_lastQuestion($conn);
+$theQuestion = $question_tuple[0][1];
+
+
 $r = array();
 
 echo "<h3>Now the poll ended, displaying the result</h3>";
-echo "<p>Have you had php experience before?</p>";
+echo "<p>" . $theQuestion ."</p>";
+
 
 // Once user get into this page, the start_poll result row will delete and re-insert
-delete_startpoll($conn);
+clear_table($conn, "Flags");
 
-insert_startPoll_no($conn);
+insert_startPoll_no($conn, "Flags");
 
 
 $r = selectAll_exceptStartPoll($conn);

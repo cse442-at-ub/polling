@@ -1,5 +1,7 @@
 <?php
 
+
+
 /*it's going to select all rows/tuples of our table except the start_poll*/
 function selectAll_exceptStartPoll($conn){
     $sql_query = "SELECT * FROM student_replies WHERE student_name<>'start_poll'";
@@ -14,8 +16,21 @@ function selectAll_exceptStartPoll($conn){
     }
 }
 
-function select_startpoll($conn){
-    $sql_query = "SELECT * FROM student_replies WHERE student_name='start_poll'";
+function select_startpoll($conn, $table_flags){
+    $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='start_poll'";
+
+    $query_res = mysqli_query($conn, $sql_query);
+
+    if ($query_res ==false){
+        echo mysqli_error($conn);
+    }else{
+        $res = mysqli_fetch_all($query_res);  // return array from result set from the db
+        return $res;
+    }
+}
+
+function select_mode($conn, $table_flags){
+    $sql_query = "SELECT * FROM " . $table_flags . " WHERE flag_name='mode_rightNow'";
 
     $query_res = mysqli_query($conn, $sql_query);
 
@@ -28,12 +43,58 @@ function select_startpoll($conn){
 }
 
 /*it's going to delete the tuples where title = start_poll (the flag)*/
-function delete_startpoll($conn){
-    $sql_query = "DELETE FROM student_replies WHERE student_name='start_poll'";
+function delete_startpoll($conn, $table_flags){
+    $sql_query = "DELETE FROM " . $table_flags . " WHERE flag_name='start_poll'";
     $query_res = mysqli_query($conn, $sql_query);
     if ($query_res ==false){
         echo mysqli_error($conn);
     }else{
+    }
+}
+
+function insert_questionMode($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+function insert_feedbackMode($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+    }
+}
+
+function insert_questionModeANDredirect($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "question" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+        header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
+        // header("Location: http://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/create_poll_question/create_poll_question.php");
+    }
+    
+}
+
+
+// redirect professor to decide if start the feedback page (Li's link)
+function insert_feedbackModeANDredirect($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
+    VALUES('" . "mode_rightNow" . "','" . "feedback" . "')";
+    $query_insert_res = mysqli_query($conn, $sql_insert);
+    if($query_insert_res==false){
+        echo mysqli_error($conn);
+    }else{
+        header("Location: https://www-student.cse.buffalo.edu/CSE442-542/2021-Summer/cse-442b/feedBack_AJAX.php");
     }
 }
 
@@ -61,8 +122,8 @@ function insert_redirect_exceptFlag($conn, $start_yet){
     // }
     //
     if($_SERVER["REQUEST_METHOD"]=="POST" && $start_yet=="yes" && isset($_POST['answer'])){
-        $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
-                        VALUES('" . $_POST['name'] . "','" . $_POST['answer'] . "')";
+        $sql_insert = "INSERT INTO student_replies(id, student_name, student_answer)
+                        VALUES(DEFAULT," . "'111'," . "'" . $_POST['answer'] . "')";
         $query_insert_res = mysqli_query($conn, $sql_insert);
         if($query_insert_res==false){
             echo mysqli_error($conn);
@@ -76,11 +137,11 @@ function insert_redirect_exceptFlag($conn, $start_yet){
 }
 
 /*insert the start_poll and start_poll result(from post)*/
-function insert_startPoll_fromPost($conn){
+function insert_startPoll_fromPost($conn, $table){
     // just detect the _server even if not within the same scripts, think of it pass in as "one";
     if($_SERVER["REQUEST_METHOD"]=="POST"){
         // var_dump($_POST);
-        $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
+        $sql_insert = "INSERT INTO " . $table . "(flag_name, flag_val)
                         VALUES('" . "start_poll" . "','" . $_POST['start_poll'] . "')";
         $query_insert_res = mysqli_query($conn, $sql_insert);
         if($query_insert_res==false){
@@ -90,8 +151,8 @@ function insert_startPoll_fromPost($conn){
     }
 }
 
-function insert_startPoll_no($conn){
-    $sql_insert = "INSERT INTO student_replies(student_name, student_answer)
+function insert_startPoll_no($conn, $table_flags){
+    $sql_insert = "INSERT INTO " . $table_flags . "(flag_name, flag_val)
     VALUES('" . "start_poll" . "','" . "no" . "')";
     $query_insert_res = mysqli_query($conn, $sql_insert);
     if($query_insert_res==false){
@@ -100,18 +161,13 @@ function insert_startPoll_no($conn){
     }
 }
 
-function clear_table_exceptFlag($conn, $table){
-    //it's going to remove all existing tuples(except the flag 'start_poll') when prof start the poll question
-    $clearTable_query = "DELETE FROM " . $table . " WHERE student_name<>'start_poll'";
-    // echo $clearTable_query;
-    $clearTable_res = mysqli_query($conn, $clearTable_query);
-    if ($clearTable_res ==false){
-        echo mysqli_error($conn);
-    }else{
-    }
-}
-
 function clear_table($conn, $table){
+    // is to reinsert id column, since each time we clear the table without it, the id increment number is inherit from the
+    //last tuple whether it's deleted or not.
+    $drop_id_column_query = "ALTER TABLE " . $table . " DROP id";
+    mysqli_query($conn, $drop_id_column_query);
+    $reinsert_id_query = "ALTER TABLE " . $table . " ADD id INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (id), AUTO_INCREMENT=1";
+    mysqli_query($conn, $reinsert_id_query);
     //it's going to remove all existing tuples(except the flag 'start_poll') when prof start the poll question
     $clearTable_query = "DELETE FROM " . $table;
     // echo $clearTable_query;
@@ -123,7 +179,7 @@ function clear_table($conn, $table){
 }
 
 function select_lastQuestion($conn){
-    $sql_query = "SELECT * FROM prof_questions ORDER BY ID DESC LIMIT 1";
+    $sql_query = "SELECT * FROM QA ORDER BY ID DESC LIMIT 1";
 
     $query_res = mysqli_query($conn, $sql_query);
 
